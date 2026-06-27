@@ -1,32 +1,32 @@
-# 05 — Delete a Student
+# 05 — विद्यार्थी हटाउने (Delete a Student)
 
-## What this route does
+## यो route ले के गर्छ
 
-Finds a student by ID and permanently removes them from the database. Returns an empty response to confirm deletion.
+ID को आधारमा विद्यार्थी खोज्छ र डेटाबेसबाट स्थायी रूपमा हटाउँछ। सफलतापूर्वक हटाइएको पुष्टि गर्न खाली response फर्काउँछ।
 
 ---
 
-## The Route
+## Route
 
-**File:** `routes/api.php`
+**फाइल:** `routes/api.php`
 
 ```php
 Route::delete('students/{id}', [StudentController::class, 'destroy']);
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
-| Part | Meaning |
-|------|---------|
-| `Route::delete` | Only responds to DELETE requests |
-| `'students/{id}'` | `{id}` identifies which student to delete |
-| `'destroy'` | The controller method to call |
+| भाग | अर्थ |
+|-----|------|
+| `Route::delete` | यो route ले DELETE request मात्र स्वीकार गर्छ |
+| `'students/{id}'` | `{id}` ले कुन विद्यार्थी हटाउने भनेर पहिचान गर्छ |
+| `'destroy'` | call हुने controller method |
 
 ---
 
-## The Controller Method
+## Controller Method
 
-**File:** `app/Http/Controllers/StudentController.php`
+**फाइल:** `app/Http/Controllers/StudentController.php`
 
 ```php
 public function destroy($id)
@@ -38,39 +38,39 @@ public function destroy($id)
 }
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
 ```php
 $student = Student::query()->where('id', $id)->firstOrFail();
 ```
-- Finds the student or returns a 404 if the ID does not exist
+- विद्यार्थी खोज्छ, ID नभेटिए स्वतः 404 फर्काउँछ
 
 ```php
 $student->delete();
 ```
-- Deletes the record from the `students` table
+- `students` table बाट त्यो record हटाउँछ
 
 ```php
 return response()->json(null, 204);
 ```
-- Returns an **empty body** with HTTP status `204 No Content`
-- `204` is the standard response for a successful delete — it means "done, nothing to return"
+- **खाली body** सहित HTTP status `204 No Content` फर्काउँछ
+- `204` सफल delete को standard response हो — अर्थ हो "काम भयो, फर्काउन केही छैन"
 
 ---
 
-## Example Request
+## Request को उदाहरण
 
 ```
 DELETE /api/students/3
 ```
 
-## Example Response (204 No Content)
+## Response को उदाहरण (204 No Content)
 
 ```
-(empty body)
+(खाली body)
 ```
 
-## Not Found Response (404)
+## Not Found को उदाहरण (404)
 
 ```json
 {
@@ -80,24 +80,24 @@ DELETE /api/students/3
 
 ---
 
-## HTTP Status Codes used in this API
+## यस API मा प्रयोग हुने HTTP Status Codes
 
-| Code | Name | When it's returned |
-|------|------|--------------------|
-| 200 | OK | Successful GET or PUT |
-| 201 | Created | Successful POST |
-| 204 | No Content | Successful DELETE |
-| 404 | Not Found | `firstOrFail()` found no record |
-| 422 | Unprocessable Entity | Validation failed |
+| Code | नाम | कहिले आउँछ |
+|------|-----|------------|
+| 200 | OK | सफल GET वा PUT मा |
+| 201 | Created | सफल POST मा |
+| 204 | No Content | सफल DELETE मा |
+| 404 | Not Found | `firstOrFail()` ले record नभेट्दा |
+| 422 | Unprocessable Entity | Validation fail हुँदा |
 
 ---
 
-## Files involved
+## सम्बन्धित फाइलहरू
 
-- `routes/api.php` — registers the route
+- `routes/api.php` — route दर्ता गर्छ
 - `app/Http/Controllers/StudentController.php` — `destroy()` method
-- `app/Models/Student.php` — the Eloquent model
+- `app/Models/Student.php` — Eloquent model
 
 ---
 
-> You have now covered all 5 routes! Head back to [README.md](README.md) for a full overview.
+> तपाईंले सबै ५ routes सिक्नुभयो! पूरा overview को लागि [README.md](README.md) मा फर्किनुहोस्।

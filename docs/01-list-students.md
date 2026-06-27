@@ -1,33 +1,33 @@
-# 01 — List All Students
+# 01 — सबै विद्यार्थीहरूको सूची (List All Students)
 
-## What this route does
+## यो route ले के गर्छ
 
-Returns a list of every student in the database.
+डेटाबेसमा भएका सबै विद्यार्थीहरूको सूची फर्काउँछ।
 
 ---
 
-## The Route
+## Route
 
-**File:** `routes/api.php`
+**फाइल:** `routes/api.php`
 
 ```php
 Route::get('students', [StudentController::class, 'index']);
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
-| Part | Meaning |
-|------|---------|
-| `Route::get` | Only responds to GET requests (used for fetching data) |
-| `'students'` | The URL path → full URL is `/api/students` |
-| `StudentController::class` | The controller class that will handle the request |
-| `'index'` | The method inside that controller to call |
+| भाग | अर्थ |
+|-----|------|
+| `Route::get` | यो route ले GET request मात्र स्वीकार गर्छ (data पढ्नको लागि GET प्रयोग गरिन्छ) |
+| `'students'` | URL path — पूरा URL हुन्छ `/api/students` |
+| `StudentController::class` | request सम्हाल्ने controller class |
+| `'index'` | त्यो controller भित्रको method जो call हुन्छ |
 
 ---
 
-## The Controller Method
+## Controller Method
 
-**File:** `app/Http/Controllers/StudentController.php`
+**फाइल:** `app/Http/Controllers/StudentController.php`
 
 ```php
 public function index()
@@ -38,29 +38,29 @@ public function index()
 }
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
 ```php
 $data = Student::query()->get();
 ```
-- `Student::query()` — starts a database query on the `students` table
-- `->get()` — runs the query and returns **all** rows as a collection
+- `Student::query()` — `students` table मा query सुरु गर्छ
+- `->get()` — query चलाएर **सबै** rows collection को रूपमा फर्काउँछ
 
 ```php
 return StudentResource::collection($data);
 ```
-- Wraps the collection in `StudentResource` so the JSON output is clean and consistent
-- `::collection()` is used when returning **multiple** records (use `new StudentResource()` for a single one)
+- collection लाई `StudentResource` मा wrap गरेर सफा र consistent JSON output दिन्छ
+- `::collection()` — **धेरै** records फर्काउँदा प्रयोग गरिन्छ (एउटा मात्र record को लागि `new StudentResource()` प्रयोग गरिन्छ)
 
 ---
 
-## Example Request
+## Request को उदाहरण
 
 ```
 GET /api/students
 ```
 
-## Example Response
+## Response को उदाहरण
 
 ```json
 {
@@ -89,13 +89,13 @@ GET /api/students
 
 ---
 
-## Files involved
+## सम्बन्धित फाइलहरू
 
-- `routes/api.php` — registers the route
+- `routes/api.php` — route दर्ता गर्छ
 - `app/Http/Controllers/StudentController.php` — `index()` method
-- `app/Http/Resources/StudentResource.php` — formats the output
-- `app/Models/Student.php` — the Eloquent model
+- `app/Http/Resources/StudentResource.php` — output format गर्छ
+- `app/Models/Student.php` — Eloquent model
 
 ---
 
-> **Next:** [02-create-student.md](02-create-student.md) — learn how to add a new student with POST.
+> **अर्को:** [02-create-student.md](02-create-student.md) — POST मार्फत नयाँ विद्यार्थी कसरी थप्ने सिक्नुहोस्।

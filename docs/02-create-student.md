@@ -1,32 +1,32 @@
-# 02 — Create a Student
+# 02 — नयाँ विद्यार्थी थप्ने (Create a Student)
 
-## What this route does
+## यो route ले के गर्छ
 
-Accepts student data from the request body, validates it, and saves a new student to the database.
+request body बाट विद्यार्थीको data लिन्छ, validate गर्छ, र डेटाबेसमा नयाँ विद्यार्थी save गर्छ।
 
 ---
 
-## The Route
+## Route
 
-**File:** `routes/api.php`
+**फाइल:** `routes/api.php`
 
 ```php
 Route::post('students', [StudentController::class, 'store']);
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
-| Part | Meaning |
-|------|---------|
-| `Route::post` | Only responds to POST requests (used for creating data) |
-| `'students'` | The URL path → full URL is `/api/students` |
-| `'store'` | The controller method to call |
+| भाग | अर्थ |
+|-----|------|
+| `Route::post` | यो route ले POST request मात्र स्वीकार गर्छ (नयाँ data बनाउनको लागि POST प्रयोग गरिन्छ) |
+| `'students'` | URL path — पूरा URL हुन्छ `/api/students` |
+| `'store'` | call हुने controller method |
 
 ---
 
-## The Controller Method
+## Controller Method
 
-**File:** `app/Http/Controllers/StudentController.php`
+**फाइल:** `app/Http/Controllers/StudentController.php`
 
 ```php
 public function store(StoreStudentRequest $request)
@@ -39,35 +39,35 @@ public function store(StoreStudentRequest $request)
 }
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
 ```php
 public function store(StoreStudentRequest $request)
 ```
-- Laravel automatically runs `StoreStudentRequest` validation **before** this method is called
-- If validation fails, Laravel returns a 422 error response automatically — your method never runs
+- यो method call हुनु अघि नै Laravel ले `StoreStudentRequest` मार्फत validation चलाउँछ
+- validation fail भयो भने Laravel स्वतः 422 error response फर्काउँछ — यो method नै चल्दैन
 
 ```php
 $inputs = $request->validated();
 ```
-- Returns only the fields that passed validation (safe to use directly)
+- validation पास गरेका field मात्र फर्काउँछ — सिधै प्रयोग गर्न सुरक्षित छ
 
 ```php
 $student = Student::create($inputs);
 ```
-- Inserts a new row into the `students` table and returns the created model
+- `students` table मा नयाँ row insert गर्छ र बनाइएको model फर्काउँछ
 
 ```php
 return new StudentResource($student);
 ```
-- Wraps the single new record in `StudentResource` for clean JSON output
-- Use `new StudentResource()` (not `::collection()`) for a **single** record
+- एउटा मात्र नयाँ record लाई `StudentResource` मा wrap गरेर JSON output दिन्छ
+- एउटा मात्र record को लागि `new StudentResource()` प्रयोग गरिन्छ (`::collection()` होइन)
 
 ---
 
 ## Validation — `StoreStudentRequest`
 
-**File:** `app/Http/Requests/StoreStudentRequest.php`
+**फाइल:** `app/Http/Requests/StoreStudentRequest.php`
 
 ```php
 public function rules(): array
@@ -83,17 +83,17 @@ public function rules(): array
 }
 ```
 
-### What each rule means
+### प्रत्येक rule को अर्थ
 
-| Rule | Meaning |
-|------|---------|
-| `required` | The field must be present and not empty |
-| `string` | The value must be a string |
-| `max:255` | Cannot exceed 255 characters |
+| Rule | अर्थ |
+|------|------|
+| `required` | यो field अनिवार्य छ, खाली हुन मिल्दैन |
+| `string` | value string हुनुपर्छ |
+| `max:255` | 255 अक्षरभन्दा बढी हुन मिल्दैन |
 
 ---
 
-## Example Request
+## Request को उदाहरण
 
 ```
 POST /api/students
@@ -109,7 +109,7 @@ Content-Type: application/json
 }
 ```
 
-## Example Response (201 Created)
+## Response को उदाहरण (201 Created)
 
 ```json
 {
@@ -125,7 +125,7 @@ Content-Type: application/json
 }
 ```
 
-## Validation Error Response (422)
+## Validation Error को उदाहरण (422)
 
 ```json
 {
@@ -138,14 +138,14 @@ Content-Type: application/json
 
 ---
 
-## Files involved
+## सम्बन्धित फाइलहरू
 
-- `routes/api.php` — registers the route
+- `routes/api.php` — route दर्ता गर्छ
 - `app/Http/Controllers/StudentController.php` — `store()` method
-- `app/Http/Requests/StoreStudentRequest.php` — validates the request
-- `app/Http/Resources/StudentResource.php` — formats the output
-- `app/Models/Student.php` — the Eloquent model
+- `app/Http/Requests/StoreStudentRequest.php` — request validate गर्छ
+- `app/Http/Resources/StudentResource.php` — output format गर्छ
+- `app/Models/Student.php` — Eloquent model
 
 ---
 
-> **Next:** [03-get-student.md](03-get-student.md) — learn how to fetch a single student by ID.
+> **अर्को:** [03-get-student.md](03-get-student.md) — ID द्वारा एउटा विद्यार्थीको विवरण कसरी ल्याउने सिक्नुहोस्।

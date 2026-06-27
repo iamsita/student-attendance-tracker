@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ *  @mixin Student
+ */
 class StudentResource extends JsonResource
 {
     /**
@@ -14,6 +18,16 @@ class StudentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'                  => $this->id,
+            'registration_number' => $this->registration_number,
+            'first_name'          => $this->first_name,
+            'last_name'           => $this->last_name,
+            'email'               => $this->email,
+            'phone'               => $this->phone,
+            'class_name'          => $this->class_name,
+            'created_at'          => $this->created_at,
+            'updated_at'          => $this->updated_at,
+        ];
     }
 }

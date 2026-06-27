@@ -1,32 +1,32 @@
-# 03 — Get a Single Student
+# 03 — एउटा विद्यार्थीको विवरण (Get a Single Student)
 
-## What this route does
+## यो route ले के गर्छ
 
-Looks up one student by their ID and returns their details. Returns a 404 if no student with that ID exists.
+ID को आधारमा एउटा विद्यार्थी खोज्छ र उनको विवरण फर्काउँछ। दिएको ID को विद्यार्थी नभेटिए स्वतः 404 दिन्छ।
 
 ---
 
-## The Route
+## Route
 
-**File:** `routes/api.php`
+**फाइल:** `routes/api.php`
 
 ```php
 Route::get('students/{id}', [StudentController::class, 'show']);
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
-| Part | Meaning |
-|------|---------|
-| `Route::get` | Only responds to GET requests |
-| `'students/{id}'` | `{id}` is a dynamic segment — whatever value is in the URL is passed to the method |
-| `'show'` | The controller method to call |
+| भाग | अर्थ |
+|-----|------|
+| `Route::get` | यो route ले GET request मात्र स्वीकार गर्छ |
+| `'students/{id}'` | `{id}` एउटा dynamic segment हो — URL मा जे value राखिन्छ त्यो method मा पास हुन्छ |
+| `'show'` | call हुने controller method |
 
 ---
 
-## The Controller Method
+## Controller Method
 
-**File:** `app/Http/Controllers/StudentController.php`
+**फाइल:** `app/Http/Controllers/StudentController.php`
 
 ```php
 public function show($id)
@@ -37,33 +37,33 @@ public function show($id)
 }
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
 ```php
 public function show($id)
 ```
-- Laravel automatically extracts the `{id}` value from the URL and passes it as `$id`
+- Laravel ले URL को `{id}` value स्वतः निकालेर `$id` मा पास गर्छ
 
 ```php
 $student = Student::query()->where('id', $id)->firstOrFail();
 ```
-- `where('id', $id)` — filters the query to rows where `id` matches
-- `firstOrFail()` — returns the first matching record **or** throws a `ModelNotFoundException`, which Laravel turns into a 404 response automatically
+- `where('id', $id)` — `id` match हुने row मात्र filter गर्छ
+- `firstOrFail()` — पहिलो matching record फर्काउँछ, **नभेटिए** `ModelNotFoundException` throw गर्छ जसलाई Laravel स्वतः 404 response मा बदल्छ
 
 ```php
 return new StudentResource($student);
 ```
-- Wraps the single record in `StudentResource` for consistent JSON output
+- एउटा record लाई `StudentResource` मा wrap गरेर consistent JSON output दिन्छ
 
 ---
 
-## Example Request
+## Request को उदाहरण
 
 ```
 GET /api/students/1
 ```
 
-## Example Response (200 OK)
+## Response को उदाहरण (200 OK)
 
 ```json
 {
@@ -79,7 +79,7 @@ GET /api/students/1
 }
 ```
 
-## Not Found Response (404)
+## Not Found को उदाहरण (404)
 
 ```json
 {
@@ -89,13 +89,13 @@ GET /api/students/1
 
 ---
 
-## Files involved
+## सम्बन्धित फाइलहरू
 
-- `routes/api.php` — registers the route
+- `routes/api.php` — route दर्ता गर्छ
 - `app/Http/Controllers/StudentController.php` — `show()` method
-- `app/Http/Resources/StudentResource.php` — formats the output
-- `app/Models/Student.php` — the Eloquent model
+- `app/Http/Resources/StudentResource.php` — output format गर्छ
+- `app/Models/Student.php` — Eloquent model
 
 ---
 
-> **Next:** [04-update-student.md](04-update-student.md) — learn how to edit an existing student with PUT.
+> **अर्को:** [04-update-student.md](04-update-student.md) — PUT मार्फत विद्यार्थीको जानकारी कसरी अपडेट गर्ने सिक्नुहोस्।

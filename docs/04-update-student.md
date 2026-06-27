@@ -1,32 +1,32 @@
-# 04 — Update a Student
+# 04 — विद्यार्थीको जानकारी अपडेट गर्ने (Update a Student)
 
-## What this route does
+## यो route ले के गर्छ
 
-Finds an existing student by ID, validates the new data, and updates the record in the database.
+ID को आधारमा विद्यार्थी खोज्छ, नयाँ data validate गर्छ, र डेटाबेसमा record अपडेट गर्छ।
 
 ---
 
-## The Route
+## Route
 
-**File:** `routes/api.php`
+**फाइल:** `routes/api.php`
 
 ```php
 Route::put('students/{id}', [StudentController::class, 'update']);
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
-| Part | Meaning |
-|------|---------|
-| `Route::put` | Only responds to PUT requests (used for full updates) |
-| `'students/{id}'` | `{id}` identifies which student to update |
-| `'update'` | The controller method to call |
+| भाग | अर्थ |
+|-----|------|
+| `Route::put` | यो route ले PUT request मात्र स्वीकार गर्छ (पूरै record अपडेट गर्नको लागि PUT प्रयोग गरिन्छ) |
+| `'students/{id}'` | `{id}` ले कुन विद्यार्थी अपडेट गर्ने भनेर पहिचान गर्छ |
+| `'update'` | call हुने controller method |
 
 ---
 
-## The Controller Method
+## Controller Method
 
-**File:** `app/Http/Controllers/StudentController.php`
+**फाइल:** `app/Http/Controllers/StudentController.php`
 
 ```php
 public function update(UpdateStudentRequest $request, $id)
@@ -40,39 +40,39 @@ public function update(UpdateStudentRequest $request, $id)
 }
 ```
 
-### Breaking it down
+### विस्तारमा बुझौं
 
 ```php
 public function update(UpdateStudentRequest $request, $id)
 ```
-- Validation runs via `UpdateStudentRequest` before this method is called
-- `$id` comes from the `{id}` segment in the URL
+- यो method चल्नु अघि `UpdateStudentRequest` मार्फत validation हुन्छ
+- `$id` URL को `{id}` segment बाट आउँछ
 
 ```php
 $inputs = $request->validated();
 ```
-- Returns only the validated fields — safe to pass directly to `update()`
+- validate भएका field मात्र फर्काउँछ — सिधै `update()` मा पास गर्न सुरक्षित छ
 
 ```php
 $student = Student::query()->where('id', $id)->firstOrFail();
 ```
-- Finds the student or returns a 404 if not found
+- विद्यार्थी खोज्छ, नभेटिए 404 फर्काउँछ
 
 ```php
 $student->update($inputs);
 ```
-- Updates the database row with the new values
+- डेटाबेसको row लाई नयाँ values ले अपडेट गर्छ
 
 ```php
 return new StudentResource($student);
 ```
-- Returns the freshly updated student as JSON
+- अपडेट भएको विद्यार्थीको विवरण JSON मा फर्काउँछ
 
 ---
 
 ## Validation — `UpdateStudentRequest`
 
-**File:** `app/Http/Requests/UpdateStudentRequest.php`
+**फाइल:** `app/Http/Requests/UpdateStudentRequest.php`
 
 ```php
 public function rules(): array
@@ -88,12 +88,12 @@ public function rules(): array
 }
 ```
 
-> The rules here are the same as `StoreStudentRequest`. All fields are still required because PUT replaces the full record.
-> If you only want to update some fields, use PATCH instead — but that requires `sometimes` rules.
+> यहाँका rules `StoreStudentRequest` जस्तै छन् किनभने PUT ले पूरै record replace गर्छ, त्यसैले सबै field अनिवार्य छन्।
+> केही field मात्र अपडेट गर्नु छ भने PATCH प्रयोग गर्नुपर्छ — तर त्यसका लागि `sometimes` rule चाहिन्छ।
 
 ---
 
-## Example Request
+## Request को उदाहरण
 
 ```
 PUT /api/students/1
@@ -109,7 +109,7 @@ Content-Type: application/json
 }
 ```
 
-## Example Response (200 OK)
+## Response को उदाहरण (200 OK)
 
 ```json
 {
@@ -127,14 +127,14 @@ Content-Type: application/json
 
 ---
 
-## Files involved
+## सम्बन्धित फाइलहरू
 
-- `routes/api.php` — registers the route
+- `routes/api.php` — route दर्ता गर्छ
 - `app/Http/Controllers/StudentController.php` — `update()` method
-- `app/Http/Requests/UpdateStudentRequest.php` — validates the request
-- `app/Http/Resources/StudentResource.php` — formats the output
-- `app/Models/Student.php` — the Eloquent model
+- `app/Http/Requests/UpdateStudentRequest.php` — request validate गर्छ
+- `app/Http/Resources/StudentResource.php` — output format गर्छ
+- `app/Models/Student.php` — Eloquent model
 
 ---
 
-> **Next:** [05-delete-student.md](05-delete-student.md) — learn how to remove a student with DELETE.
+> **अर्को:** [05-delete-student.md](05-delete-student.md) — DELETE मार्फत विद्यार्थी कसरी हटाउने सिक्नुहोस्।
