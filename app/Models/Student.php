@@ -12,7 +12,7 @@ class Student extends Model
         'last_name',
         'email',
         'phone',
-        'class_name'
+        'class_name',
     ];
 
     public function attendances()

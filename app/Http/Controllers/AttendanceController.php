@@ -10,20 +10,20 @@ class AttendanceController extends Controller
     public function markAttendance(Request $request)
     {
         $request->validate([
-            'student_id' => 'required',
+            'student_id'      => 'required',
             'attendance_date' => 'required|date',
-            'status' => 'required'
+            'status'          => 'required',
         ]);
 
         $attendance = Attendance::create([
-            'student_id' => $request->student_id,
+            'student_id'      => $request->student_id,
             'attendance_date' => $request->attendance_date,
-            'status' => $request->status
+            'status'          => $request->status,
         ]);
 
         return response()->json([
             'message' => 'Attendance Marked Successfully',
-            'data' => $attendance
+            'data'    => $attendance,
         ]);
     }
 
@@ -41,7 +41,7 @@ class AttendanceController extends Controller
         return Attendance::where('student_id', $studentId)
             ->whereBetween(
                 'attendance_date',
-                [now()->startOfWeek(), now()->endOfWeek()]
+                [now()->startOfWeek(), now()->endOfWeek()],
             )
             ->get();
     }
