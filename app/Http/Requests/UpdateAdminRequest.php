@@ -12,7 +12,7 @@ class UpdateAdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,9 @@ class UpdateAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
             'admin_name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6'
+            'email'      => 'required|email',
+            'password'   => 'required|min:6',
         ];
     }
 }

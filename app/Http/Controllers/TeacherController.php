@@ -2,41 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
 
 class TeacherController extends Controller
 {
-    // Show one teacher
-    public function show($id)
+    public function index()
     {
-        $teacher = Teacher::where('id', $id)->firstOrFail();
+        $teachers = Teacher::query()->get();
+
+        return TeacherResource::collection($teachers);
+    }
+
+    public function store(StoreTeacherRequest $request)
+    {
+        $inputs = $request->validated();
+
+        $teacher = Teacher::create($inputs);
 
         return new TeacherResource($teacher);
     }
 
-    // Update teacher
+    public function show($id)
+    {
+        $teacher = Teacher::query()->where('id', $id)->firstOrFail();
+
+        return new TeacherResource($teacher);
+    }
+
     public function update(UpdateTeacherRequest $request, $id)
     {
         $inputs = $request->validated();
-
-        $teacher = Teacher::where('id', $id)->firstOrFail();
+        $teacher = Teacher::query()->where('id', $id)->firstOrFail();
 
         $teacher->update($inputs);
 
         return new TeacherResource($teacher);
     }
 
-    // Delete teacher
     public function destroy($id)
     {
-        $teacher = Teacher::where('id', $id)->firstOrFail();
-
+        $teacher = Teacher::query()->where('id', $id)->firstOrFail();
         $teacher->delete();
 
-        return response()->json([
-            'message' => 'Teacher deleted successfully.'
-        ], 200);
+        return response()->json(null, 204);
     }
 }

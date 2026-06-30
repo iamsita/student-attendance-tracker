@@ -16,9 +16,9 @@ class UpdateTeacherRequest extends FormRequest
         return [
             'teacher_id' => 'required',
             'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'nullable|email',
-            'phone' => 'nullable'
+            'last_name'  => 'required',
+            'email'      => 'nullable|email',
+            'phone'      => 'nullable',
         ];
     }
 }

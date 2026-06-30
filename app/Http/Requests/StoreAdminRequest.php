@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateClassRequest extends FormRequest
+class StoreAdminRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,9 +14,9 @@ class UpdateClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class_name' => 'required',
-            'section'    => 'required',
-            'faculty'    => 'required',
+            'admin_name' => 'required|string|max:255',
+            'email'      => 'required|email|max:255|unique:admins,email',
+            'password'   => 'required|string|min:6',
         ];
     }
 }

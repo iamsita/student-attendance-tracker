@@ -15,9 +15,9 @@ class AdminResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'id'         => $this->id,
             'admin_name' => $this->admin_name,
-            'email' => $this->email,
+            'email'      => $this->email,
         ];
     }
 }

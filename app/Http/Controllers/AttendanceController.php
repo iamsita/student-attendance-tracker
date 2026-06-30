@@ -10,9 +10,9 @@ class AttendanceController extends Controller
     public function markAttendance(Request $request)
     {
         $request->validate([
-            'student_id'      => 'required',
-            'attendance_date' => 'required|date',
-            'status'          => 'required',
+            'student_id'      => 'required|integer|exists:students,id',
+            'attendance_date' => 'required|date_format:Y-m-d',
+            'status'          => 'required|in:present,absent,late',
         ]);
 
         $attendance = Attendance::create([

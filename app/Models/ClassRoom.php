@@ -9,6 +9,6 @@ class ClassRoom extends Model
     protected $fillable = [
         'class_name',
         'section',
-        'faculty'
+        'faculty',
     ];
 }

@@ -10,10 +10,10 @@ class ClassResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'id'         => $this->id,
             'class_name' => $this->class_name,
-            'section' => $this->section,
-            'faculty' => $this->faculty,
+            'section'    => $this->section,
+            'faculty'    => $this->faculty,
         ];
     }
 }
