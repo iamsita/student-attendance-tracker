@@ -12,17 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attendances', static function (Blueprint $table): void {
-            $table->foreignId('student_id')
-                ->constrained('students')
-                ->onDelete('cascade');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
 
             $table->date('attendance_date');
 
-            $table->enum('status', [
-                'Present',
-                'Absent',
-                'Late',
-            ]);
+            $table->enum('status', ['present', 'absent', 'late']);
 
             $table->timestamps();
         });

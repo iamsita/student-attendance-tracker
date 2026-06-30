@@ -127,6 +127,24 @@ Content-Type: application/json
 
 ---
 
+## यो route का फाइलहरू कसरी बनाउने?
+
+```bash
+# Controller बनाउन
+php artisan make:controller StudentController
+
+# Form Request बनाउन (validation को लागि)
+php artisan make:request UpdateStudentRequest
+
+# Resource बनाउन
+php artisan make:resource StudentResource
+
+# Model र Migration सँगै बनाउन
+php artisan make:model Student -m
+```
+
+---
+
 ## सम्बन्धित फाइलहरू
 
 - `routes/api.php` — route दर्ता गर्छ

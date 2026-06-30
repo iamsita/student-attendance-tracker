@@ -29,7 +29,7 @@ class StudentController extends Controller
     {
         $student = Student::query()->where('id', $id)->firstOrFail();
 
-        return StudentResource::collection($student);
+        return new StudentResource($student);
     }
 
     public function update(UpdateStudentRequest $request, $id)

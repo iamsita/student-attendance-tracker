@@ -89,6 +89,21 @@ GET /api/students
 
 ---
 
+## यो route का फाइलहरू कसरी बनाउने?
+
+```bash
+# Controller बनाउन
+php artisan make:controller StudentController
+
+# Resource बनाउन
+php artisan make:resource StudentResource
+
+# Model र Migration सँगै बनाउन
+php artisan make:model Student -m
+```
+
+---
+
 ## सम्बन्धित फाइलहरू
 
 - `routes/api.php` — route दर्ता गर्छ
